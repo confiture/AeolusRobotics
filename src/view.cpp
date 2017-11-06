@@ -32,7 +32,6 @@ int main(int argc, char **argv) {
 
     FindRegion find_region(image,20,20,0.1);
 
-
     cv::Mat & output_visu = find_region.resultVizualisation();
     
     show_mat(output_visu,"Output");

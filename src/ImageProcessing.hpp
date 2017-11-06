@@ -6,7 +6,9 @@ public:
     FindRegion(const cv::Mat & image,unsigned int i,unsigned int j,double distance);
 
     inline cv::Mat & resultVizualisation()const{return _output_visualization;}
-	    
+
+    inline const std::vector<std::vector<bool> > & result()const{return _done_pixels;}
+
 protected:
     const cv::Mat & _image;
     double _sqDist;
