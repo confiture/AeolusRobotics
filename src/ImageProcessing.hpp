@@ -1,23 +1,20 @@
 #include <opencv2/opencv.hpp>
 
 
-class ImageProcessing{
+class FindRegion{
 public:
-    //ImageProcessing(const cv::Mat & image) : _image(image){}
+    FindRegion(const cv::Mat & image,unsigned int i,unsigned int j,double distance);
 
-    static void findRegion(const cv::Mat & image,unsigned int i,unsigned int j,double distance,
-			   cv::Mat & output);
-    
+    inline cv::Mat & resultVizualisation()const{return _output_visualization;}
+	    
 protected:
+    const cv::Mat & _image;
+    double _sqDist;
+    mutable cv::Mat _output_visualization;
+    cv::Vec3b _ref_pixel_val;
+    std::vector<std::vector<bool> > _done_pixels;
+    
     static double sqDistance(const cv::Vec3b & vec1,const cv::Vec3b & vec2);
 
-    static std::pair<int,int> undoneNeighbour(const std::pair<int,int> & cur_pix,
-					      const std::vector<std::vector<bool> > & done_pix,
-					      const cv::Mat & image, const cv::Vec3b & ref_pixel_val,
-					      double sqDist);
-
-    // const cv::Mat & _image;
-    
-    ImageProcessing(){}
-
+    std::pair<int,int> undoneNeighbour(const std::pair<int,int> & cur_pix);
 };

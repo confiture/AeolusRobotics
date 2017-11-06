@@ -30,11 +30,13 @@ int main(int argc, char **argv) {
 
     // show_mat(image, "Output");
 
-    cv::Mat mat;
-    ImageProcessing::findRegion(image,100,100,0.1,mat);
+    FindRegion find_region(image,20,20,0.1);
 
-    show_mat(mat,"Output");
-    imwrite(argv[2], mat);
+
+    cv::Mat & output_visu = find_region.resultVizualisation();
+    
+    show_mat(output_visu,"Output");
+    imwrite(argv[2], output_visu);
     
     //imwrite(argv[2], image);
 
