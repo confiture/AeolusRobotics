@@ -2,15 +2,13 @@
 #include <vector>
 #include <stack>
 #include <math.h>
+#include <iostream>
 
 void ImageProcessing::findRegion(const cv::Mat & image,unsigned int row,unsigned int col,
 				 double distance,cv::Mat & output){
     std::vector<std::vector<bool> >  done_pixels(image.rows);
     for(unsigned int i = 0; i < image.rows; ++i){
-	done_pixels[i].resize(0,image.cols);
-	for(unsigned int j = 0; j < image.cols; ++j)
-	    done_pixels[i][j] = false;
-
+    	done_pixels[i].resize(image.cols,false);
     }
 
     std::stack<std::pair<int,int> > pixel_stack;
@@ -23,31 +21,32 @@ void ImageProcessing::findRegion(const cv::Mat & image,unsigned int row,unsigned
 
     bool end = false;
 
-    while(pixel_stack.size() > 0){
-	if(cur_pixel.first != -1){
-	    if(!done_pixels[cur_pixel.first][cur_pixel.second]){
-		done_pixels[cur_pixel.first][cur_pixel.second] = true;
-		pixel_stack.push(cur_pixel);
-	    }
+    do{
+    	if(cur_pixel.first != -1){
+    	    if(!done_pixels[cur_pixel.first][cur_pixel.second]){
+    		done_pixels[cur_pixel.first][cur_pixel.second] = true;
+    		pixel_stack.push(cur_pixel);
+    	    }
 
-	    cur_pixel = undoneNeighbour(cur_pixel,done_pixels,image,ref_pixel_val,dist2);
-	}
-	else{
-	    cur_pixel = pixel_stack.top();
-	    pixel_stack.pop();
-	}
+    	    cur_pixel = undoneNeighbour(cur_pixel,done_pixels,image,ref_pixel_val,dist2);
+    	}
+    	else{
+    	    cur_pixel = pixel_stack.top();
+    	    pixel_stack.pop();
+    	}
     }
+    while(pixel_stack.size() > 0);
 
     output = image;
 
     for(unsigned int i = 0; i < image.rows; ++i){
-	for(unsigned int j = 0; j < image.cols; ++j){
-	    if(done_pixels[i][j])
-		output.at<cv::Vec3b>(i,j) = cv::Vec3b(0,0,0);
-	    else
-		output.at<cv::Vec3b>(i,j) = ref_pixel_val;
-	}
-    }	    
+    	for(unsigned int j = 0; j < image.cols; ++j){
+    	    if(!done_pixels[i][j])
+    		output.at<cv::Vec3b>(i,j) = cv::Vec3b(0,0,0);
+    	    else
+    		output.at<cv::Vec3b>(i,j) = ref_pixel_val;
+    	}
+    }
 }
 
 
