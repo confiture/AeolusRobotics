@@ -177,11 +177,11 @@ int main(){
 	    break;
 
 	case DISPLAY_PIXELS_INPUT:
-	    std::cin >> cur_word;	    
+	    std::cin >> cur_word;
 
-	    display_pixels_input = &pixelResults[cur_word];
-	    
-	    cur_state = DISPLAY_IMAGE_EXEC;
+	    display_pixels_input = &(pixelResults[cur_word]);
+
+	    cur_state = DISPLAY_PIXELS_EXEC;
 	    break;
 
 	case DISPLAY_PIXELS_EXEC:
