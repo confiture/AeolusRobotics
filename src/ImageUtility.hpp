@@ -8,5 +8,6 @@ namespace ImageUtility{
     void displayPixels(const std::vector<std::vector<bool> > & input,std::string win_name = "default");
 
     void buildImage(const std::vector<std::vector<bool> > & input,cv::Mat & output);
-    
+
+    void savePixels(const std::vector<std::vector<bool> > & input,const std::string & filename);
 }

@@ -32,4 +32,11 @@ namespace ImageUtility{
 	    }
 	}
     }
+
+    void savePixels(const std::vector<std::vector<bool> > & input,const std::string & filename){
+	cv::Mat output;
+	buildImage(input,output);
+	
+	cv::imwrite(filename,output);
+    }
 }

@@ -39,7 +39,8 @@ int main(int argc, char **argv) {
     // show_mat(output_visu,"Output");
 
     ImageUtility::displayPixels(find_region.result(),"Output");
-    
+
+    ImageUtility::savePixels(find_region.result(),argv[2]);
     //imwrite(argv[2], output_visu);
     
     //imwrite(argv[2], image);
