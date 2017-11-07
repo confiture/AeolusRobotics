@@ -33,19 +33,6 @@ enum State{
     QUIT
 };
 
-void tests(){
-    std::string input;
-    std::string output;
-    std::stringstream ss;
-
-    std::cin>>input;
-    std::cout<<input<<std::endl;
-    std::cin>>input;
-    std::cout<<input<<std::endl;
-    std::cin>>input;
-    std::cout<<input<<std::endl;
-}
-
 int main(){
     //loaded images variable names
     std::map<std::string,cv::Mat> loadedImages;
@@ -73,9 +60,6 @@ int main(){
     std::string display_image_str("display_image");
     std::string display_pixels_str("display_pixels");
 
-    
-    
-    std::stringstream commands_stream;
     std::string cur_word;
     
     bool end = false;
