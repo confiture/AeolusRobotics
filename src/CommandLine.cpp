@@ -15,6 +15,8 @@ enum State{
     DISPLAY_PIXELS,    
     FIND_REGION,
     FIND_PERIMETER,
+    SAVE_PIXELS,
+    SAVE_PIXELS_TXT,
     WAITING,
     ANALYZE_COMMAND,
     QUIT
@@ -46,6 +48,8 @@ int main(){
     std::string find_perimeter_str("find_perimeter");
     std::string display_image_str("display_image");
     std::string display_pixels_str("display_pixels");
+    std::string save_pixels_str("save_pixels");
+    std::string save_pixels_txt_str("save_pixels_txt");
 
     std::string cur_word;
     
@@ -72,6 +76,10 @@ int main(){
 		cur_state = DISPLAY_PIXELS;
 	    else if(cur_word == find_perimeter_str)
 		cur_state = FIND_PERIMETER;
+	    else if(cur_word == save_pixels_str)
+		cur_state = SAVE_PIXELS;
+	    else if(cur_word == save_pixels_txt_str)
+		cur_state = SAVE_PIXELS_TXT;
 	    else if(cur_word == quit_str)
 		cur_state = QUIT;
     	    else{
@@ -161,7 +169,36 @@ int main(){
 		cur_state = WAITING;
 		break;
 	    }
+
+	case SAVE_PIXELS:
+	    {
+		std::cin>>cur_word;
+		const std::vector<std::vector<bool> > & pixels = pixelResults[cur_word];
+
+		std::string output_filename;
+		std::cin>>output_filename;
+
+		ImageUtility::savePixels(pixels,output_filename);
+		
+		cur_state = WAITING;
+		break;
+	    }
+
+	case SAVE_PIXELS_TXT:
+	    {
+		std::cin>>cur_word;
+		const std::vector<std::vector<bool> > & pixels = pixelResults[cur_word];
+
+		std::string output_filename;
+		std::cin>>output_filename;
+
+		ImageUtility::savePixelsTxt(pixels,output_filename);
+		
+		cur_state = WAITING;
+		break;
+	    }
     	}
+
     }
 
     

@@ -54,4 +54,15 @@ Let's see now "find_perimeter" function :
 The first parameter is the input which must be the find_region output, the second parameter
 is the output name that is the same type as find_region output.
 
+You can write results to files :
+
+> save_pixels flowers_region flowers_region.png
+
+In a binnary image here.
+
+Or by running :
+
+> save_pixels_txt flowers_region flowers_region.txt
+
+In a text file.
 
