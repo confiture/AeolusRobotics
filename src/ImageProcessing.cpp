@@ -124,3 +124,20 @@ bool FindPerimeter::isInside(int i,int j)const{
     
     return true;
 }
+
+
+FindSmoothPerimeter::FindSmoothPerimeter(const std::vector<std::vector<bool> > & input,int nsmoothing){
+    FindPerimeter find_sharp_perim(input);
+
+    cv::Mat input_image;
+    ImageUtility::buildImage(find_sharp_perim,input_image);
+
+
+    _output_image = input_image;
+    //gaussian 3x3 filter
+    for(int i = 0; i < nsmoothing; ++i)
+    {
+	
+    }
+    while(i < nsmoothing
+}

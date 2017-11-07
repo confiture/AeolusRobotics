@@ -48,3 +48,13 @@ protected:
     const std::vector<std::vector<bool> > & _input;
     std::vector<std::vector<bool> > _output;
 };
+
+
+class FindSmoothPerimeter{
+public:
+    FindSmoothPerimeter(const std::vector<std::vector<bool> > & input,int nsmoothing = 1);
+
+    inline cv::Mat & result(){return _output_image;}
+protected:
+    cv::Mat _output_image;
+};
