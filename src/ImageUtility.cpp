@@ -10,11 +10,18 @@ namespace ImageUtility{
     }
 
     void displayPixels(const std::vector<std::vector<bool> > & input,std::string win_name){
+	cv::Mat output;
+	buildImage(input,output);
+
+	displayImage(output,win_name);
+    }
+
+    void buildImage(const std::vector<std::vector<bool> > & input,cv::Mat & output){
 	int nrows,ncols;
 	nrows = input.size();
 	ncols = input[0].size();
-	
-	cv::Mat output(nrows,ncols,CV_8UC1);
+
+	output = cv::Mat(nrows,ncols,CV_8UC1);
 
 	for(unsigned int i = 0; i < nrows; ++i){
 	    for(unsigned int j = 0; j < ncols; ++j){
@@ -24,8 +31,5 @@ namespace ImageUtility{
 		    output.at<uchar>(i,j) = 255;//_ref_pixel_val;
 	    }
 	}
-
-	displayImage(output,win_name);
     }
-    
 }
