@@ -1,7 +1,6 @@
 #include "ImageProcessing.hpp"
 #include "ImageUtility.hpp"
 
-#include <tuple>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -29,10 +28,6 @@ int main(){
 
     //results from find region and find perimeter
     std::map<std::string,std::vector<std::vector<bool> > > pixelResults;
-
-    //parameters for executing find_region
-    std::tuple<cv::Mat,unsigned int,unsigned int,double> find_region_params;
-    std::tuple<std::string,std::string> load_image_params;
 
     // param for display image
     cv::Mat * display_image_input;
@@ -215,7 +210,7 @@ int main(){
 
 		FindSmoothPerimeter find_perim(pixels,nsmoothing);
 
-		pixelResults[output_pixels_name] = find_perim.result();
+		loadedImages[output_pixels_name] = find_perim.result();
 
 		cur_state = WAITING;
 		break;

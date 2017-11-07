@@ -54,6 +54,20 @@ Let's see now "find_perimeter" function :
 The first parameter is the input which must be the find_region output, the second parameter
 is the output name that is the same type as find_region output.
 
+You can also run find_smooth_perimeter :
+
+> find_smooth_perimeter flowers_region 3 smooth_perim_flowers
+
+First parameter is the input image.
+Second parameter is the number of times that gaussian filter is ran onto the perimeter.
+Thid parameter is the output name.
+
+So find_smooth_perimeter is simply the previous find_perimeter followed by n executions of
+gaussian filter onto the perimeter.
+Gaussian filter has the property of smoothing.
+If I had more time, It would have been very interesting to sample the perimeters each four pixels
+for example and to fit splines.
+
 You can write results to files :
 
 > save_pixels flowers_region flowers_region.png
@@ -65,4 +79,14 @@ Or by running :
 > save_pixels_txt flowers_region flowers_region.txt
 
 In a text file.
+
+==========================================
+
+CLI for test3.png smooth perimeter
+
+> load_image ../test3.png test3
+> find_region test3 100 100 0.1 region
+> find_smooth_perimeter region 3 smooth
+> display_image smooth
+
 

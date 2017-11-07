@@ -54,6 +54,10 @@ protected:
 
 class FindSmoothPerimeter{
 public:
+    /**
+     * Runs previous Find perimeter, and executes nsmoothing-times gaussian 3x3
+     * smoothing on the perimeter.
+     */
     FindSmoothPerimeter(const std::vector<std::vector<bool> > & input,int nsmoothing = 1);
 
     inline cv::Mat & result(){return _output_image;}
