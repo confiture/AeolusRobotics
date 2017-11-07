@@ -85,3 +85,7 @@ std::pair<int,int> FindRegion::undoneNeighbour(const std::pair<int,int> & cur_pi
 
     return std::pair<int,int>(-1,-1);
 }
+
+FindPerimeter::FindPerimeter(const std::vector<std::vector<bool> > & input){
+    
+}
