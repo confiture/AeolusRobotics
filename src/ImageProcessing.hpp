@@ -3,8 +3,19 @@
 
 class FindRegion{
 public:
+    /**
+     * Find a contiguous patch of pixels that are similar in color to the first pixel
+     * at position (i,j).
+     * @param image the input image
+     * @param i row index of the first pixel
+     * @param j column index of the first pixel
+     * @param distance the maximum distance allowed to pixels belongging to the same region
+     */
     FindRegion(const cv::Mat & image,unsigned int i,unsigned int j,double distance);
 
+    /**
+     *Result accessor.
+     */
     inline const std::vector<std::vector<bool> > & result()const{return _done_pixels;}
 
 protected:
@@ -18,11 +29,17 @@ protected:
     std::pair<int,int> undoneNeighbour(const std::pair<int,int> & cur_pix);
 };
 
-
 class FindPerimeter{
 public:
+    /**
+     * FindPerimeter provides the perimeter from the FindRegion result.
+     * @ param input the input binnary image representing the set of pixels.
+     */
     FindPerimeter(const std::vector<std::vector<bool> > & input);
-    
+
+    /**
+     *Result accessor.
+     */
     inline const std::vector<std::vector<bool> > & result()const{return _output;}
 
 protected:

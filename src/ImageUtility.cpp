@@ -1,5 +1,6 @@
 #include "ImageUtility.hpp"
 #include <iostream>
+#include <fstream>
 
 namespace ImageUtility{
 
@@ -38,6 +39,26 @@ namespace ImageUtility{
 	buildImage(input,output);
 	
 	cv::imwrite(filename,output);
+    }
+
+    void savePixelsTxt(const std::vector<std::vector<bool> > & input,const std::string & filename){
+	int nrows = input.size();
+	int ncols = input[0].size();
+
+	std::ofstream file;
+	file.open(filename);
+	
+	for(int i = 0; i < nrows; ++i){
+	    for(int j = 0; j < ncols;++j){
+		if(input[i][j])
+		    file<<"1";
+		else
+		    file<<"0";
+	    }
+	    file<<std::endl;
+	}
+
+	file.close();
     }
 
     void loadImage(const std::string & filename,cv::Mat & output){
