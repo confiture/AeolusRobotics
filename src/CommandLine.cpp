@@ -22,6 +22,7 @@ enum State{
     DISPLAY_PIXELS_EXEC,
     
     FIND_REGION,
+    FIND_PERIMETER,
     FIND_REGION_INPUT,
     FIND_REGION_ROW,
     FIND_REGION_COL,
@@ -50,7 +51,7 @@ int main(){
     std::map<std::string,cv::Mat> loadedImages;
 
     //results from find region and find perimeter
-    std::map<std::string,std::vector<std::vector<bool> > pixelResults;
+    std::map<std::string,std::vector<std::vector<bool> > > pixelResults;
 
     //parameters for executing find_region
     std::tuple<cv::Mat,unsigned int,unsigned int,double> find_region_params;
@@ -59,13 +60,20 @@ int main(){
     // param for display image
     cv::Mat * display_image_input;
 
+    // param for display pixels
+    std::vector<std::vector<bool> > * display_pixels_input;
+
     // used in the below state machine
     State cur_state = WAITING;
 
     std::string quit_str("quit");
     std::string load_image_str("load_image");
     std::string find_region_str("find_region");
+    std::string find_perimeter_str("find_perimeter");
     std::string display_image_str("display_image");
+    std::string display_pixels_str("display_pixels");
+
+    
     
     std::stringstream commands_stream;
     std::string cur_word;
@@ -89,6 +97,10 @@ int main(){
     		cur_state = LOAD_IMAGE;
 	    else if(cur_word == display_image_str)
 		cur_state = DISPLAY_IMAGE;
+	    else if(cur_word == display_pixels_str)
+		cur_state = DISPLAY_PIXELS;
+	    else if(cur_word == find_perimeter_str)
+		cur_state = FIND_PERIMETER;
     	    else{
     		std::cerr<<"unknown command: "<<cur_word<<std::endl;
     		cur_state = WAITING;
@@ -160,16 +172,62 @@ int main(){
 	    cur_state = WAITING;
 	    break;
 
-    	// case FIND_REGION:
-    	//     if(!(std::cin >> cur_word)){
-    	// 	std::cerr<<"find_region : wrong number of parameters"<<std::endl;
-    	// 	cur_state = WAITING;
-    	// 	break;
-    	//     }
+	case DISPLAY_PIXELS:
+	    cur_state = DISPLAY_PIXELS_INPUT;
+	    break;
 
-    	//     cur_state = FIND_REGION_INPUT_IMAGE;
-    	//     break;
+	case DISPLAY_PIXELS_INPUT:
+	    std::cin >> cur_word;	    
+
+	    display_pixels_input = &pixelResults[cur_word];
 	    
+	    cur_state = DISPLAY_IMAGE_EXEC;
+	    break;
+
+	case DISPLAY_PIXELS_EXEC:
+	    ImageUtility::displayPixels(*display_pixels_input);
+
+	    cur_state = WAITING;
+	    break;
+
+	case FIND_REGION:
+	    {
+		std::cin>>cur_word;
+		const cv::Mat & image = loadedImages[cur_word];
+
+		int i,j;
+		std::cin>>i;
+		std::cin>>j;
+
+		double distance;
+		std::cin>>distance;
+
+		std::string output_pixels_name;
+		std::cin>>output_pixels_name;
+
+		FindRegion find_region(image,i,j,distance);
+
+		pixelResults[output_pixels_name] = find_region.result();
+
+		cur_state = WAITING;
+		break;
+	    }
+	    
+	case FIND_PERIMETER:
+	    {
+		std::cin>>cur_word;
+		const std::vector<std::vector<bool> > & pixels = pixelResults[cur_word];
+
+		std::string output_pixels_name;
+		std::cin>>output_pixels_name;
+
+		FindPerimeter find_perim(pixels);
+
+		pixelResults[output_pixels_name] = find_perim.result();
+
+		cur_state = WAITING;
+		break;
+	    }
     	}
     }
 
