@@ -101,6 +101,8 @@ int main(){
 		cur_state = DISPLAY_PIXELS;
 	    else if(cur_word == find_perimeter_str)
 		cur_state = FIND_PERIMETER;
+	    else if(cur_word == quit_str)
+		cur_state = QUIT;
     	    else{
     		std::cerr<<"unknown command: "<<cur_word<<std::endl;
     		cur_state = WAITING;
@@ -108,87 +110,47 @@ int main(){
 
     	    break;
 
-    	case LOAD_IMAGE:
-	    std::cout<<"load image state"<<std::endl;
-	    cur_state = LOAD_IMAGE_INPUT;
+	case QUIT:
+	    end = true;
 	    break;
+	    
+	case LOAD_IMAGE:
+	    {
+		std::string input_filename;
+		std::cin>>input_filename;
 
-	case LOAD_IMAGE_INPUT:
-	    std::cout<<"load image input state"<<std::endl;
-    	    if(!(std::cin >> cur_word)){
-    		std::cerr<<"Wrong use of load image : load_image input_filename output_name"<<std::endl;
+		std::string var_name;
+		std::cin>>var_name;
+
+		ImageUtility::loadImage(input_filename,
+					loadedImages[var_name]);
+
 		cur_state = WAITING;
-
 		break;
+		
 	    }
-
-	    std::get<0>(load_image_params) = cur_word;
-
-	    cur_state = LOAD_IMAGE_OUTPUT;
-	    break;
-	    
-	case LOAD_IMAGE_OUTPUT:
-	    std::cout<<"load image output state"<<std::endl;
-	    
-    	    if(!(std::cin >> cur_word)){
-    		std::cerr<<"Wrong use of load image : load_image input_filename output_name"<<std::endl;
-		cur_state = WAITING;
-
-		break;
-	    }
-
-	    std::get<1>(load_image_params) = cur_word;
-	    
-	    cur_state = LOAD_IMAGE_EXEC;
-	    break;
-
-	case LOAD_IMAGE_EXEC:
-	    std::cout<<"load image exec state"<<std::endl;
-	    ImageUtility::loadImage(std::get<0>(load_image_params),
-				    loadedImages[std::get<1>(load_image_params)]);
-
-	    cur_state = WAITING;
-	    break;
 
 	case DISPLAY_IMAGE:
-	    cur_state = DISPLAY_IMAGE_INPUT;
-	    break;
+	    {
+		std::string image_name;
+		std::cin>>image_name;
 
-	case DISPLAY_IMAGE_INPUT:
-	    if(!(std::cin >> cur_word)){
-    		std::cerr<<"Wrong use of display_image : display_image input_image_name"<<std::endl;
+		ImageUtility::displayImage(loadedImages[image_name]);
+
 		cur_state = WAITING;
-
 		break;
 	    }
 
-	    display_image_input = &loadedImages[cur_word];
-	    cur_state = DISPLAY_IMAGE_EXEC;
-	    break;
-
-	case DISPLAY_IMAGE_EXEC:
-	    ImageUtility::displayImage(*display_image_input);
-
-	    cur_state = WAITING;
-	    break;
-
 	case DISPLAY_PIXELS:
-	    cur_state = DISPLAY_PIXELS_INPUT;
-	    break;
+	    {
+		std::string pixel_name;
+		std::cin>>pixel_name;
 
-	case DISPLAY_PIXELS_INPUT:
-	    std::cin >> cur_word;
+		ImageUtility::displayPixels(pixelResults[pixel_name]);
 
-	    display_pixels_input = &(pixelResults[cur_word]);
-
-	    cur_state = DISPLAY_PIXELS_EXEC;
-	    break;
-
-	case DISPLAY_PIXELS_EXEC:
-	    ImageUtility::displayPixels(*display_pixels_input);
-
-	    cur_state = WAITING;
-	    break;
+		cur_state = WAITING;
+		break;
+	    }
 
 	case FIND_REGION:
 	    {
