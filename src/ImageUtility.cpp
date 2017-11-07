@@ -39,4 +39,8 @@ namespace ImageUtility{
 	
 	cv::imwrite(filename,output);
     }
+
+    void loadImage(const std::string & filename,cv::Mat & output){
+	output = cv::imread(filename,1);
+    }
 }

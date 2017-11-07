@@ -10,4 +10,6 @@ namespace ImageUtility{
     void buildImage(const std::vector<std::vector<bool> > & input,cv::Mat & output);
 
     void savePixels(const std::vector<std::vector<bool> > & input,const std::string & filename);
+
+    void loadImage(const std::string & filename,cv::Mat & output);
 }
