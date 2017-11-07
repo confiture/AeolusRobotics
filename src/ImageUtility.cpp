@@ -1,10 +1,12 @@
 #include "ImageUtility.hpp"
+#include <iostream>
 
 namespace ImageUtility{
 
     void displayImage(const cv::Mat & image,std::string win_name){
 	namedWindow(win_name, cv::WINDOW_AUTOSIZE);
-	imshow(win_name, image);
+	cv::imshow(win_name, image);
+	cv::waitKey(0);
     }
 
     void displayPixels(const std::vector<std::vector<bool> > & input,std::string win_name){
@@ -22,6 +24,8 @@ namespace ImageUtility{
 		    output.at<uchar>(i,j) = 255;//_ref_pixel_val;
 	    }
 	}
+
+	displayImage(output,win_name);
     }
     
 }

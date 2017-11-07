@@ -35,19 +35,6 @@ FindRegion::FindRegion(const cv::Mat & image,unsigned int row,unsigned int col,
     	}
     }
     while(pixel_stack.size() > 0);
-
-    std::cout<<"ici1"<<std::endl;
-    _output_visualization = cv::Mat(_image.rows,_image.cols,CV_8UC1);
-    std::cout<<"ici2"<<std::endl;
-
-    for(unsigned int i = 0; i < _image.rows; ++i){
-    	for(unsigned int j = 0; j < _image.cols; ++j){
-    	    if(!_done_pixels[i][j])
-    		_output_visualization.at<uchar>(i,j) = 0;//cv::Vec3b(0,0,0);
-    	    else
-    		_output_visualization.at<uchar>(i,j) = 255;//_ref_pixel_val;
-    	}
-    }
 }
 
 

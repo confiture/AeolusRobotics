@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include "ImageProcessing.hpp"
+#include "ImageUtility.hpp"
 
 using namespace cv;
 
@@ -24,18 +25,22 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    show_mat(image, "Input");
+    ImageUtility::displayImage(image,"Input");
+    //show_mat(image, "Input");
 
     // image = invert_mat_pointer(image);
 
     // show_mat(image, "Output");
 
     FindRegion find_region(image,20,20,0.1);
-
-    cv::Mat & output_visu = find_region.resultVizualisation();
     
-    show_mat(output_visu,"Output");
-    imwrite(argv[2], output_visu);
+    // cv::Mat & output_visu = find_region.resultVizualisation();
+    
+    // show_mat(output_visu,"Output");
+
+    ImageUtility::displayPixels(find_region.result(),"Output");
+    
+    //imwrite(argv[2], output_visu);
     
     //imwrite(argv[2], image);
 
