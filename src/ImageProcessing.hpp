@@ -1,3 +1,5 @@
+#pragma once
+
 #include <opencv2/opencv.hpp>
 
 
@@ -56,5 +58,9 @@ public:
 
     inline cv::Mat & result(){return _output_image;}
 protected:
+    double gaussFilterValue(int row,int col,const cv::Mat & image);
+    
     cv::Mat _output_image;
+
+    std::vector<std::vector<double> > _filter;
 };

@@ -3,6 +3,7 @@
 #include <stack>
 #include <math.h>
 #include <iostream>
+#include "ImageUtility.hpp"
 
 FindRegion::FindRegion(const cv::Mat & image,unsigned int row,unsigned int col,
 			    double distance) : _image(image){    
@@ -127,17 +128,47 @@ bool FindPerimeter::isInside(int i,int j)const{
 
 
 FindSmoothPerimeter::FindSmoothPerimeter(const std::vector<std::vector<bool> > & input,int nsmoothing){
+    int nrows,ncols;
+    nrows = input.size();
+    ncols = input[0].size();
+    
+    _filter.resize(3);
+    for(int i = 0; i < 3; ++i)
+	_filter[i].resize(3);
+
+    _filter[0][0] = _filter[2][0] = _filter[2][2] = _filter[0][2] = 1.0/16.0;
+    _filter[0][1] = _filter[1][0] = _filter[2][1] = _filter[1][2] = 1.0/8.0;
+    _filter[1][1] = 0.25;
+    
     FindPerimeter find_sharp_perim(input);
 
     cv::Mat input_image;
-    ImageUtility::buildImage(find_sharp_perim,input_image);
+    ImageUtility::buildImage(find_sharp_perim.result(),input_image);
 
 
     _output_image = input_image;
+    
     //gaussian 3x3 filter
-    for(int i = 0; i < nsmoothing; ++i)
+    for(int k = 0; k < nsmoothing; ++k)
     {
-	
+	for(int i = 1; i < nrows - 1; ++i){
+	    for(int j = 1; j < ncols - 1; ++j){
+		_output_image.at<uchar>(i,j) = gaussFilterValue(i,j,input_image);
+	    }
+	}
+	input_image = _output_image;
     }
-    while(i < nsmoothing
+}
+
+
+double FindSmoothPerimeter::gaussFilterValue(int row,int col,const cv::Mat & image){
+    double val = 0;
+
+    
+    for(int i_filter = 0; i_filter < 3; ++i_filter)
+	for(int j_filter = 0; j_filter < 3; ++j_filter)
+	    val += _filter[i_filter][j_filter] *
+		((double)image.at<uchar>(row - 1 + i_filter,col - 1 + j_filter));
+
+    return val;
 }
