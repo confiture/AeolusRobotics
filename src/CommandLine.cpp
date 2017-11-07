@@ -17,6 +17,7 @@ enum State{
     FIND_PERIMETER,
     SAVE_PIXELS,
     SAVE_PIXELS_TXT,
+    FIND_SMOOTH_PERIMETER,
     WAITING,
     ANALYZE_COMMAND,
     QUIT
@@ -50,6 +51,7 @@ int main(){
     std::string display_pixels_str("display_pixels");
     std::string save_pixels_str("save_pixels");
     std::string save_pixels_txt_str("save_pixels_txt");
+    std::string find_smooth_perimeter_str("find_smooth_perimeter");
 
     std::string cur_word;
     
@@ -80,6 +82,8 @@ int main(){
 		cur_state = SAVE_PIXELS;
 	    else if(cur_word == save_pixels_txt_str)
 		cur_state = SAVE_PIXELS_TXT;
+	    else if(cur_word == find_smooth_perimeter_str)
+		cur_state = FIND_SMOOTH_PERIMETER;
 	    else if(cur_word == quit_str)
 		cur_state = QUIT;
     	    else{
@@ -197,8 +201,26 @@ int main(){
 		cur_state = WAITING;
 		break;
 	    }
-    	}
 
+	case FIND_SMOOTH_PERIMETER:
+	    {
+		std::cin>>cur_word;
+		const std::vector<std::vector<bool> > & pixels = pixelResults[cur_word];
+
+		int nsmoothing;
+		std::cin>>nsmoothing;
+		
+		std::string output_pixels_name;
+		std::cin>>output_pixels_name;
+
+		FindSmoothPerimeter find_perim(pixels,nsmoothing);
+
+		pixelResults[output_pixels_name] = find_perim.result();
+
+		cur_state = WAITING;
+		break;
+	    }
+    	}
     }
 
     

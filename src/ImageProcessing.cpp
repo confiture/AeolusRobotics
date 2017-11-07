@@ -163,7 +163,6 @@ FindSmoothPerimeter::FindSmoothPerimeter(const std::vector<std::vector<bool> > &
 
 double FindSmoothPerimeter::gaussFilterValue(int row,int col,const cv::Mat & image){
     double val = 0;
-
     
     for(int i_filter = 0; i_filter < 3; ++i_filter)
 	for(int j_filter = 0; j_filter < 3; ++j_filter)

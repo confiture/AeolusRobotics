@@ -27,16 +27,20 @@ int main(int argc, char **argv) {
 
     ImageUtility::displayImage(image,"Input");
 
-    FindRegion find_region(image,20,20,0.1);
+    FindRegion find_region(image,100,100,0.1);
 
     ImageUtility::displayPixels(find_region.result(),"Regoin");
     
-    ImageUtility::savePixels(find_region.result(),argv[2]);
+    // ImageUtility::savePixels(find_region.result(),argv[2]);
 
-    FindPerimeter find_perim(find_region.result());
+    // FindPerimeter find_perim(find_region.result());
 
-    ImageUtility::displayPixels(find_perim.result(),"Perimeter");
+    //ImageUtility::displayPixels(find_perim.result(),"Perimeter");
     //imwrite(argv[2], output_visu);
+
+    FindSmoothPerimeter find_smooth_perim(find_region.result(),3);
+    ImageUtility::displayImage(find_smooth_perim.result());
+    
     
     //imwrite(argv[2], image);
 
