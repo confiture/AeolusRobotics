@@ -51,7 +51,7 @@ std::pair<int,int> FindRegion::undoneNeighbour(const std::pair<int,int> & cur_pi
     int i = cur_pix.first;
     int j = cur_pix.second;
 
-    if(i - 1 > 0 && j - 1 >= 0 && !_done_pixels[i - 1][j - 1] &&
+    if(i - 1 >= 0 && j - 1 >= 0 && !_done_pixels[i - 1][j - 1] &&
        sqDistance(_image.at<cv::Vec3b>(i - 1,j - 1),_ref_pixel_val) < _sqDist)
 	return std::pair<int,int>    (i - 1,j - 1);
 
@@ -86,6 +86,41 @@ std::pair<int,int> FindRegion::undoneNeighbour(const std::pair<int,int> & cur_pi
     return std::pair<int,int>(-1,-1);
 }
 
-FindPerimeter::FindPerimeter(const std::vector<std::vector<bool> > & input){
+FindPerimeter::FindPerimeter(const std::vector<std::vector<bool> > & input) : _input(input){
+    int nrows,ncols;
+    nrows = input.size();
+    ncols = input[0].size();
+
+    _output = input;
+
+    for(int i = 0; i < nrows; ++i)
+	for(int j = 0; j < ncols; ++j)
+	    if(isInside(i,j))
+		_output[i][j] = false;
     
+}
+
+
+bool FindPerimeter::isInside(int i,int j)const{
+    int nrows,ncols;
+    nrows = _input.size();
+    ncols = _input[0].size();
+    
+    
+    if(!_input[i][j])
+	return false;
+
+    if(i > 0 && !(_input[i - 1][j]))
+	return false;
+
+    if(j > 0 && !(_input[i][j - 1]))
+	return false;
+
+    if(i + 1 < nrows && !(_input[i + 1][j]))
+	return false;
+
+    if(j + 1 < ncols && !(_input[i][j + 1]))
+	return false;
+    
+    return true;
 }

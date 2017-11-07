@@ -26,21 +26,16 @@ int main(int argc, char **argv) {
     }
 
     ImageUtility::displayImage(image,"Input");
-    //show_mat(image, "Input");
-
-    // image = invert_mat_pointer(image);
-
-    // show_mat(image, "Output");
 
     FindRegion find_region(image,20,20,0.1);
-    
-    // cv::Mat & output_visu = find_region.resultVizualisation();
-    
-    // show_mat(output_visu,"Output");
 
-    ImageUtility::displayPixels(find_region.result(),"Output");
-
+    ImageUtility::displayPixels(find_region.result(),"Regoin");
+    
     ImageUtility::savePixels(find_region.result(),argv[2]);
+
+    FindPerimeter find_perim(find_region.result());
+
+    ImageUtility::displayPixels(find_perim.result(),"Perimeter");
     //imwrite(argv[2], output_visu);
     
     //imwrite(argv[2], image);
